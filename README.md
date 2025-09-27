@@ -1,5 +1,5 @@
 # sprint-4
-```
+
 /* Проект «Секреты Тёмнолесья»
  * Цель проекта: изучить влияние характеристик игроков и их игровых персонажей 
  * на покупку внутриигровой валюты «райские лепестки», а также оценить 
@@ -14,15 +14,17 @@
 
 -- 1.1. Доля платящих пользователей по всем данным:
 -- Напишите ваш запрос здесь
+```
 SELECT
 COUNT(id) AS total_users,
 --COUNT(CASE WHEN payer=1 THEN id END) 
 SUM(payer) AS paying_users,
 SUM(payer)/COUNT(id)::NUMERIC(10, 2) AS paying_rate
 FROM fantasy.users;
-
+```
 -- 1.2. Доля платящих пользователей в разрезе расы персонажа:
 -- Напишите ваш запрос здесь
+```
 SELECT 
 race,
 race_id,
@@ -33,11 +35,12 @@ FROM fantasy.users
 JOIN fantasy.race USING(race_id)
 GROUP BY race_id, race
 ORDER BY paying_race DESC, total_race DESC, paying_race_rate DESC;
-
+```
 -- Задача 2. Исследование внутриигровых покупок
 
 -- 2.1. Статистические показатели по полю amount:
 -- Напишите ваш запрос здесь
+```
 SELECT
 COUNT(transaction_id) AS total_events,
 SUM(amount) AS total_amount,
@@ -47,16 +50,18 @@ AVG(amount) AS avg_amount,
 PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY amount) AS median_amount,
 STDDEV_SAMP(amount) AS sddev_amount
 FROM fantasy.events;
-
+```
 -- 2.2: Аномальные нулевые покупки:
 -- Напишите ваш запрос здесь
+```
 SELECT 
 COUNT(CASE WHEN amount=0 THEN transaction_id END) AS zero_amount_count,
 COUNT(CASE WHEN amount=0 THEN transaction_id END)/COUNT(transaction_id)::float AS zero_amount_rate
 FROM fantasy.events;
-
+```
 -- 2.3: Популярные эпические предметы:
 -- Напишите ваш запрос здесь
+```
 SELECT 
 game_items,
 item_code,
@@ -77,10 +82,12 @@ JOIN fantasy.items USING(item_code)
 WHERE amount>0
 GROUP BY item_code, game_items
 ORDER BY users_rate DESC;
+```
 
 -- Часть 2. Решение ad hoc-задачbи
 -- Задача: Зависимость активности игроков от расы персонажа:
 -- Напишите ваш запрос здесь
+```
 WITH race_stats AS (
 SELECT 
 race_id,
