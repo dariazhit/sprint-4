@@ -10,7 +10,6 @@
 ```
 SELECT
 COUNT(id) AS total_users,
---COUNT(CASE WHEN payer=1 THEN id END) 
 SUM(payer) AS paying_users,
 SUM(payer)/COUNT(id)::NUMERIC(10, 2) AS paying_rate
 FROM fantasy.users;
